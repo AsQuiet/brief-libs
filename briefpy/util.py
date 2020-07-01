@@ -1,5 +1,10 @@
 import time, sys
 
+try:
+    import colorama
+except:
+    print("[Import-Error] Couldn't import the module 'colorama', color functions will not work.")
+
 class VARS:
     """Global variables for the util.py lib, should not be accessed by user."""
     OUTPUT_CONSOLE = True
@@ -53,6 +58,27 @@ def console_output_sensitive(func):
 
 class Console():
     """Simple console class."""
+    try:
+        RED = colorama.Fore.RED
+        GREEN = colorama.Fore.GREEN
+        BLUE = colorama.Fore.BLUE
+        BLACK = colorama.Fore.BLACK
+        WHITE = colorama.Fore.WHITE
+        YELLOW = colorama.Fore.YELLOW
+        PURPLE = colorama.Fore.MAGENTA
+        ENDC = colorama.Fore.RESET
+        CYAN = colorama.Fore.CYAN
+    except:
+        print("[Import-Error] Colors could not be loaded in.")
+        RED = ""
+        GREEN = ""
+        BLUE = ""
+        BLACK = ""
+        WHITE = ""
+        YELLOW = ""
+        PURPLE = ""
+        ENDC = ""
+        CYAN = ""
 
     @staticmethod
     def input_vars_to_string(string, *args):
@@ -78,7 +104,7 @@ class Console():
     def print_line(s, *args):
         """Prints out all the given input to the same line."""
         s = Console.input_vars_to_string(s, *args)
-        sys.stdout.write("\r" + str(s))
+        sys.stdout.write("\r" + str(s) + Console.ENDC)
         sys.stdout.flush()
     
     @staticmethod
@@ -86,7 +112,7 @@ class Console():
     def print(s, *args):
         """Standard print method that has a prefix and end, wich can customized. Use %v and a corresponding argument to apply it to the string => eg print('name is %v', 'larry')."""
         s = Console.input_vars_to_string(s, *args)
-        print(str(s))
+        print(str(s) + Console.ENDC)
 
     @staticmethod
     def set_output(output=True):

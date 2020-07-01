@@ -42,3 +42,12 @@ def reverse_dictionary(dict):
     for x in range(len(vs)):
         new_dict[vs[x]] = ks[x]
     return new_dict
+
+def read_file(path):
+    """Reads the file at the given path and returns all the lines in an array."""
+    lines = []
+    f = open(path, "r")
+    for line in f:
+        lines.append(line.rstrip("\n"))
+    f.close()
+    return lines
