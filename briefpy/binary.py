@@ -1,5 +1,6 @@
 import math
 
+"""Needed functions for the binary conversions. """
 def reverse(a):
     new_array = []
     for x in range(len(a)):
@@ -30,14 +31,13 @@ def mod_int(n, d=2):
     m =n % d
     return [i, m]
 
-# ------------------------------------------------------------
-#   USER FUNCTIONS
-# ------------------------------------------------------------
+"""Binary Conversion."""
 
 def convert_int(n, length=None):
     """
     Converts the given integer to a binary number (string).
     """
+    if n == 0: return ("0" if length == None else gen_buffer(length))
     current = n
     b = []
     while current > 0:
@@ -62,7 +62,9 @@ def convert_binary_int(b):
     return total
 
 def convert_decimal(n, precision=20):
-
+    """
+    Converts the given decimal to a binary number with the given precision.
+    """
     # converting fractional part
     current = n if n < 1 else n - int(n)
     result = ""
@@ -82,7 +84,9 @@ def convert_decimal(n, precision=20):
     return i + result
 
 def convert_binary_decimal(b):
-
+    """
+    Converts the given binary string to a decimal.
+    """
     # getting the fractional part
     decimal = b[b.index(".")+1:len(b)]
 
@@ -104,12 +108,3 @@ def convert_binary_decimal(b):
     i = 0 if len(i) == 0 else convert_binary_int(i)
     
     return current + i
-
-    pass
-
-
-# base64 = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z","0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "-", "+"]
-
-
-    
-
