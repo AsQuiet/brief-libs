@@ -1,44 +1,27 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
-void handle_input();
-void handle_command(char command[]);
+#include "briefc/bio.h"
 
-/* Basic user input function. */
-void handle_input() {
+int str_len(char *line) {
+    int length = 0;
 
-    char input[100];
-    // prompt text
-    printf("--> ");
-    // getting input
-    fgets(input, 15, stdin);
-    
-    int result = strcmp(input, "exit");
-
-    if (result == 10) {
-        printf("handling exit coomand");
-        exit(0);
-    } else {
-        handle_command(result);
-        handle_input();
-
+    while (*(line)) {
+        length = length + 1;
+        (line++);
     }
 
+    return length;
 }
 
-void handle_command(char command[]) {
-    printf("\nhandling command %s", command);
-}
+int main() {
 
+    int len = str_len("quinten");
+    printf("%d", len);
 
-
-int main() 
-{
-    printf("q-shell v1\n");
-    handle_input();
-
-
+    // int amt = bio_get_file_lines("d.txt");
+    // char **lines = bio_alloc_lines_of_file("d.txt", amt,20);
+    // bio_print_lines_of_file(lines, amt);
 
     return 0;
 }

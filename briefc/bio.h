@@ -45,16 +45,16 @@ char **bio_alloc_lines_of_file(char *path, int amt_lines, int line_width) {
     // int amt_lines = bio_get_file_lines(path);
     // simply create a empty file or a 2D array of char being 1x1
     if (amt_lines == 0) {
-        char **empty_file = malloc(sizeof(char*));
-        empty_file[0] = malloc(sizeof(char*));
+        char **empty_file = (char**) malloc(sizeof(char*));
+        empty_file[0] = (char*) malloc(sizeof(char*));
         return empty_file;
     }
 
     FILE *fileptr = fopen(path, "r");
-    char **file_lines = malloc(sizeof(char*) * amt_lines);
+    char **file_lines = (char**) malloc(sizeof(char*) * amt_lines);
 
     for (int i = 0; i < amt_lines; i++) {
-        file_lines[i] = malloc(sizeof(char*) * line_width);
+        file_lines[i] = (char*) malloc(sizeof(char*) * line_width);
         // reading the file
         fgets(file_lines[i], line_width, fileptr);
     }
@@ -70,3 +70,5 @@ void bio_print_lines_of_file(char **lines, int amt_lines) {
         printf("%s", lines[x]);
     } 
 }
+
+
