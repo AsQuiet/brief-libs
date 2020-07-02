@@ -32,21 +32,28 @@ namespace bstring {
 
 }
 
+
 namespace bio {
 
     void input(char *input_dst, int length);
     void input(char *input_dst);
     void clrscr();
-
+    
     namespace os {
         int get_line_count(char *file_name);
         char **get_lines_of_file(char *file_name, int amt_lines, int width_lines);
         void print_lines(char **lines, int amt_lines);
+        char **list_dir(char *path);
     }
 }   
 
 
 namespace bio {
+
+    typedef struct
+    {
+        char path[50];
+    } path;
 
     /* Prompts the user for input and stores said input into the given string. */
     void input(char *input_dst, int length) {
@@ -108,6 +115,36 @@ namespace bio {
                 std::cout << lines[i];
             }
         }
+
+#if defined(DIRENT_H)
+
+        /** Returns all of the files/folders at the given path. */
+        // char **list_dir(char *path) {
+        //     char **list = (char**) std::malloc(0);
+
+        //     DIR *dr;
+        //     struct dirent *en;
+
+        //     int amount_files = 0;
+
+        //     dr = opendir(path); //open all or present directory
+        //     if (dr) {
+        //         while ((en = readdir(dr)) != NULL) {
+        //             amount_files++;
+        //             list = (char**) std::realloc(list, sizeof(char*) * amount_files);
+        //             bstring::copy_string(list[amount_files - 1], en->d_name);
+        //             printf("%s\n", en->d_name); //print all directory name
+        //         }
+        //         closedir(dr); //close all directory
+        //     }
+            
+        //     return list;
+
+        // }
+
+    
+#endif
+
     }
     
 }
