@@ -3,6 +3,7 @@
 int     bio_get_file_lines              (char *name);
 char    **bio_alloc_lines_of_file       (char *path, int amt_lines, int line_width);
 void    bio_print_lines_of_file         (char **lines, int amt_lines);
+void    bio_clrscr                      ();
 
 #define LEN(x)  (sizeof(x) / sizeof((x)[0]))
 
@@ -72,3 +73,7 @@ void bio_print_lines_of_file(char **lines, int amt_lines) {
 }
 
 
+void bio_clrscr()
+{
+    system("@cls||clear");
+}
