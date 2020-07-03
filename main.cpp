@@ -1,32 +1,39 @@
 #include <iostream>
-#include "briefcpp/dirent.h"
 #include "briefcpp/brief.hpp"
+#include "main.hpp"
 
+namespace Icarus {
 
-void get_input() {
-
-    // uuhuhm
-    std::cout << "\nnameless~ ";
-
-    // asking for input
-    char command[50];
-    bio::input(command, 50);
-
-    // looking out for exit command
-    if (bstring::is_eql("exit", command)) {
-        exit(0);
-    }  
-    if (bstring::is_eql("clear", command)) {
-        bio::clrscr();
-    } else {
-        std::cout<<"\n"<<command;
+    namespace cmds {
+        char exit_[5] = "exit";
+        char clear_[6] = "clear";
     }
-    get_input();
+
+    void get_input() {
+        std::cout << "nameless~ ";
+        IcarusCommand command;
+        std::fgets(command.command, 256, stdin);
+        Icarus::handle_command(command);
+        
+    }
+
+    void handle_command(IcarusCommand command) {
+        
+        if (bstring::is_eql(Icarus::cmds::exit_, command.command)) {
+            exit(0);
+        }
+
+        if (bstring::is_eql(Icarus::cmds::clear_, command.command)) {
+            bio::clrscr();
+        }
+
+        Icarus::get_input();
+    }
+
 }
 
 int main() {
-
-    get_input();
+    Icarus::get_input();
     return 0;
-
 }
+

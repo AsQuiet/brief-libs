@@ -3,8 +3,9 @@
 namespace bstring {
     bool is_eql(char *str, char *str2);
     void copy_string(char *dst, char *src);
+    char *convert(char *str);
+    void rstrip(char *dst, char *src);
 }
-
 
 namespace bstring {
 
@@ -30,6 +31,21 @@ namespace bstring {
 
     }
 
+    char *convert(char *str) {
+        return str;
+    }
+
+    void rstrip(char *dst, char *src) {
+        char nope = '\n';
+        while (*src) {
+            if (*src != nope) {
+                *dst = *src;
+            }
+            (dst++);
+            (src++);
+        }
+    }
+
 }
 
 
@@ -43,7 +59,7 @@ namespace bio {
         int get_line_count(char *file_name);
         char **get_lines_of_file(char *file_name, int amt_lines, int width_lines);
         void print_lines(char **lines, int amt_lines);
-        char **list_dir(char *path);
+        
     }
 }   
 
@@ -116,37 +132,40 @@ namespace bio {
             }
         }
 
-#if defined(DIRENT_H)
-
-        /** Returns all of the files/folders at the given path. */
-        // char **list_dir(char *path) {
-        //     char **list = (char**) std::malloc(0);
-
-        //     DIR *dr;
-        //     struct dirent *en;
-
-        //     int amount_files = 0;
-
-        //     dr = opendir(path); //open all or present directory
-        //     if (dr) {
-        //         while ((en = readdir(dr)) != NULL) {
-        //             amount_files++;
-        //             list = (char**) std::realloc(list, sizeof(char*) * amount_files);
-        //             bstring::copy_string(list[amount_files - 1], en->d_name);
-        //             printf("%s\n", en->d_name); //print all directory name
-        //         }
-        //         closedir(dr); //close all directory
-        //     }
-            
-        //     return list;
-
-        // }
-
-    
-#endif
-
     }
     
+}
+
+namespace dyn {
+    typedef struct
+    {
+        char **list;
+        int length;
+    } list_strings;
+
+    typedef struct
+    {
+        int *list;
+    } list_ints;
+
+    list_strings create_strings(int length);
+
+}
+
+namespace dyn {
+
+    list_strings create_strings(int length) {
+        list_strings list;
+        list.list = (char**) std::malloc(length * sizeof(char*));
+        list.length = length;
+        return list;
+    }
+
+    void set_length(list_strings list, int length) {
+        list.list = (char**) std::realloc(list.list, length * sizeof(char*));   
+        list.length = length;
+    }
+
 }
 
 
