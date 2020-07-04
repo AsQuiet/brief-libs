@@ -1,6 +1,11 @@
 """
 Contains functions for writing and reading data to files.
 """
+import os, sys
+try:
+    import shutil
+except:
+    print("[Import-Error] Couldn't import the module 'shutil', multiple functions related to files will not work.")
 
 def write_dictionary(dic, path, separator="=", appendmode="w"):
     """Writes the given dictionary to the given path. The default separator between each key and value is '='."""
@@ -51,3 +56,63 @@ def read_file(path):
         lines.append(line.rstrip("\n"))
     f.close()
     return lines
+
+def error_using_():
+    print("[Error] Function not completed.")
+
+def createFile(path):
+    try:
+        f = open(path, "a")
+        f.close()
+        return 0
+    except:
+        error_using_()
+        return 1
+
+def createFolder(path):
+    try:
+        os.mkdir(path)
+        return 0
+    except:
+        error_using_()
+        return 1
+
+def removeFile(path):
+    try:
+        os.remove(path)
+        return 0
+    except:
+        error_using_()
+        return 1
+    
+def removeFolder(path):
+    try:
+        shutil.rmtree(path)
+        return 0
+    except:
+        error_using_()
+        return 1
+    
+def movePath(src, dst):
+    try:
+        shutil.move(src, dst)
+        return 0
+    except:
+        error_using_()
+        return 1 
+
+def copyFolder(src, dst):
+    try:
+        shutil.copytree(src, dst)
+        return 0
+    except:
+        error_using_()
+        return 1
+
+def copyFile(src, dst):
+    try:
+        shutil.copyfile(src, dst)
+        return 0
+    except:
+        error_using_()
+        return 1

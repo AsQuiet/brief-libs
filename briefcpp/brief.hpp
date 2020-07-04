@@ -1,10 +1,9 @@
 #if !defined(BRIEFCPP_LIB)
 
 namespace bstring {
-    bool is_eql(char *str, char *str2);
-    void copy_string(char *dst, char *src);
-    char *convert(char *str);
-    void rstrip(char *dst, char *src);
+    bool is_eql         (char *str, char *str2);
+    void copy_string    (char *dst, const char *src);
+    void rstrip         (char *dst, char *src);
 }
 
 namespace bstring {
@@ -13,7 +12,7 @@ namespace bstring {
 
         bool result = true;
 
-        while (*str) {
+        while (*str && *str != '\n') {
             result = result && (*str) == (*str2);
             (str++);
             (str2++);
@@ -21,7 +20,7 @@ namespace bstring {
         return result;
     }
 
-    void copy_string(char *dst, char *src) {
+    void copy_string(char *dst, const char *src) {
         
         while (*src) {
             *dst = *src;
@@ -29,10 +28,6 @@ namespace bstring {
             (src++);
         }
 
-    }
-
-    char *convert(char *str) {
-        return str;
     }
 
     void rstrip(char *dst, char *src) {
@@ -59,7 +54,6 @@ namespace bio {
         int get_line_count(char *file_name);
         char **get_lines_of_file(char *file_name, int amt_lines, int width_lines);
         void print_lines(char **lines, int amt_lines);
-        
     }
 }   
 
@@ -149,6 +143,7 @@ namespace dyn {
     } list_ints;
 
     list_strings create_strings(int length);
+    void set_length(list_strings list, int length);
 
 }
 
