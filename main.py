@@ -1,5 +1,6 @@
 from briefpy import io, string, util
 import os, sys
+import zipfile
 
 class Icarus():
 
@@ -31,6 +32,7 @@ class Icarus():
         if command[0] == "showpath":self.showpath = (True if (command[1] == 'true') else False)
         if command[0] == "move":self.IcaMove(command)
         if command[0] == "copy":self.IcaCopy(command)
+        if command[0] == "zip":self.IcaZip(command)
         
     def IcaClear(self):
         self.cmd_os("cls", "clear")
@@ -105,6 +107,43 @@ class Icarus():
         else:
             print("The given path doesn't exist.")
         
+    def IcaZip(self, command):
+        if "extract" in command:
+            src = command[2]
+            dst = command[3]
+            print("src is " + src)
+            with zipfile.ZipFile(self.get_path(src), 'r') as zip:
+                zip.printdir()
+                zip.extractall(self.get_path(dst))
+                print("\nDone extracting...")
+            return
+        
+        if "read" in command:
+            src = command[2]
+            with zipfile.ZipFile(self.get_path(src), 'r') as zip:
+                zip.printdir()
+            return
+
+        
+        toZip = command[1]
+        dst = command[2]
+        filePaths = self.get_all_file_paths(toZip)
+
+        print("These files will be zipped to " + dst)
+        for file in filePaths:
+            print("      " + file)
+        
+        con = input("Continue? (Y/N) ")
+        if con.lower() == "n":return
+        
+        with zipfile.ZipFile(self.get_path(dst), "w") as zip:
+            for file in filePaths:
+                print("Zipping file : " + file)
+                zip.write(file)
+        print("Zipping is done.")
+            
+        
+        
 
     # ------------------------------------------------------------------------------ 
     # HELPER FUNCTIONS
@@ -163,6 +202,21 @@ class Icarus():
     
     def get_path(self, path):
         return os.path.join(self.current_path, path)
+    
+    def get_all_file_paths(self, directory): 
+        # https://www.geeksforgeeks.org/working-zip-files-python/
+        # initializing empty file paths list 
+        file_paths = [] 
+    
+        # crawling through directory and subdirectories 
+        for root, directories, files in os.walk(directory): 
+            for filename in files: 
+                # join the two strings in order to form the full filepath. 
+                filepath = os.path.join(root, filename) 
+                file_paths.append(filepath) 
+    
+        # returning all file paths 
+        return file_paths 
 
     
 if __name__ == "__main__":

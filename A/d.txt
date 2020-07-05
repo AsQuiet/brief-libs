@@ -1,4 +1,0 @@
-name=nameless
-last=lastnameless
-age=109
-shit=shit
