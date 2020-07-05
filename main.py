@@ -1,4 +1,5 @@
-from briefpy import io, string, util
+from briefpy import io, string, util, binary
+import chunk
 import os, sys
 import zipfile
 
@@ -20,7 +21,7 @@ class Icarus():
     def handle_user_input(self, input_):
         # converting to a command
         command = self.extract_strings(input_)
-        
+        if len(command) == 0:return
         if command[0] == "clear":self.IcaClear()
         if command[0] == "exit":exit()
         if command[0] == "ls":self.IcaLs(command)
@@ -33,6 +34,10 @@ class Icarus():
         if command[0] == "move":self.IcaMove(command)
         if command[0] == "copy":self.IcaCopy(command)
         if command[0] == "zip":self.IcaZip(command)
+        if command[0] == "rename":self.IcaRename(command)
+        if command[0] == "run":self.IcaRun(command)
+        if command[0] == "read":self.IcaRead(command)
+        if command[0] == "chunk":self.IcaChunk(command)
         
     def IcaClear(self):
         self.cmd_os("cls", "clear")
@@ -139,11 +144,53 @@ class Icarus():
         with zipfile.ZipFile(self.get_path(dst), "w") as zip:
             for file in filePaths:
                 print("Zipping file : " + file)
-                zip.write(file)
+                zip.write(self.get_path(file), file)
         print("Zipping is done.")
             
-        
-        
+    def IcaRename(self, command):
+        file = command[1]
+        new_name = command[2]
+        os.rename(self.get_path(file), self.get_path(new_name))
+
+    def IcaRun(self, command):
+        file = command[1]
+        timer = util.Timer()
+        build_timer = None
+        if file.endswith(".py"):
+            self.cmd_os("python3 " + file, "python3 " + file)
+        elif file.endswith(".c"):
+            build_timer = util.Timer()
+            self.cmd_os("cl " + file, "gcc " + file + " -o " + file[0:len(file) - 2])
+            build_timer.stop()
+            timer = timer = util.Timer()
+            self.cmd_os(file[0:len(file) - 2], "./" + file[0:len(file) - 2])
+        elif file.endswith(".cpp"):
+            build_timer = util.Timer()
+            self.cmd_os("cl " + file, "g++ " + file + " -o " + file[0:len(file) - 4])
+            build_timer.stop()
+            timer = timer = util.Timer()
+            self.cmd_os(file[0:len(file) - 4], "./" + file[0:len(file) -4])
+        timer.stop()
+        if build_timer != None:
+            print("\n\nBuild took : " + str(build_timer.get()) + " miliseconds")
+        print("Program took : " + str(timer.get()) + " miliseconds.")
+    
+    def IcaRead(self, command):
+        file = self.get_path(command[1])
+        print("---------------------------")
+        linecount = 0
+        f = open(file, 'r')
+        for line in f:
+            linecount += 1
+            print(binary.gen_buffer(3-len(str(linecount)))+str(linecount) + " |" + line.rstrip("\n"))
+        print("---------------------------")
+    
+    def IcaChunk(self, command):
+        file = self.get_path(command[1])
+        timer = util.Timer()
+        chunk.run(file)
+        timer.stop()
+        print("Program took : " + str(timer.get()) + " miliseconds.")
 
     # ------------------------------------------------------------------------------ 
     # HELPER FUNCTIONS
