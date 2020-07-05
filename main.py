@@ -153,7 +153,7 @@ class Icarus():
         os.rename(self.get_path(file), self.get_path(new_name))
 
     def IcaRun(self, command):
-        file = command[1]
+        file = self.get_path(command[1])
         timer = util.Timer()
         build_timer = None
         if file.endswith(".py"):
