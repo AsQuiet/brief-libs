@@ -1,4 +1,5 @@
 #if !defined(BRIEFCPP_LIB)
+#define BRIEFCPP_LIB
 
 #include <iostream>
 
@@ -187,7 +188,6 @@ namespace bstring
 }
 
 
-
 namespace bio {
 
     void input(char *input_dst, int length);
@@ -274,38 +274,6 @@ namespace bio {
     
 }
 
-namespace dyn {
-    typedef struct
-    {
-        char **list;
-        int length;
-    } list_strings;
 
-    typedef struct
-    {
-        int *list;
-    } list_ints;
 
-    list_strings create_strings(int length);
-    void set_length(list_strings list, int length);
-
-}
-
-namespace dyn {
-
-    list_strings create_strings(int length) {
-        list_strings list;
-        list.list = (char**) std::malloc(length * sizeof(char*));
-        list.length = length;
-        return list;
-    }
-
-    void set_length(list_strings list, int length) {
-        list.list = (char**) std::realloc(list.list, length * sizeof(char*));   
-        list.length = length;
-    }
-
-}
-
-#define BRIEFCPP_LIB
 #endif
