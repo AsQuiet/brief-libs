@@ -1,17 +1,31 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "c/bmath.h"
+#include "c/bcereal.h"
+
+
+
 
 int main() {
 
-    printf("%d\n", (int) bm_map(2, 0, 10, 0, 100));
-    printf("%f\n\n", bm_map(34, 0, 100, 5 , 7));
+    int *towrite = malloc(3);
 
-    printf("%f\n", bm_clamp(0, -3, 4));
-    printf("%f\n", bm_clamp(-4, -3, 4));
-    printf("%f\n", bm_clamp(12, -3, 4));
+    towrite[0] = 12;
+    towrite[1] = 14;
+    towrite[2] = 2;
     
+    FILE *fptr = fopen("savedata.save", "rb");
+    unsigned char buffer[100];
+
+    // fwrite(towrite, sizeof(int), 3, fptr);
+    fread(buffer,sizeof(buffer),3,fptr); 
+
+    fclose(fptr);
+
+    for (int i = 0; i< 24; i++)
+        printf("%x", buffer[i]);
+    printf("\n");
+
     return 0;
 }
 
