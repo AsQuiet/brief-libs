@@ -1,3 +1,11 @@
+#if !defined printf
+#include <stdio.h>
+#endif 
+
+#if !defined malloc
+#include <stdlib.h>
+#endif
+
 #if !defined(BCEREAL_H)
 #define BCEREAL_H
 
